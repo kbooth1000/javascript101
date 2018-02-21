@@ -375,14 +375,36 @@ matrixAdd( [[[1, 3], [2, 4]], [[5, 2], [1, 0]]] );
 // multiplication between the two given matricies.
 
 var matrixMultiply = function(arr1, arr2) {
-    row1cell1 = (arr1[0][0] * arr2[0][0]) + (arr1[0][1] * arr2[1][0]);
-    row1cell2 = (arr1[0][0] * arr2[0][1]) + (arr1[0][1] * arr2[1][1]);
-    row2cell1 = (arr1[1][0] * arr2[0][0]) + (arr1[1][1] * arr2[1][0]);
-    row2cell2 = (arr1[1][0] * arr2[0][1]) + (arr1[1][1] * arr2[1][1]);
-    console.log(row1cell1, row1cell2, row2cell1, row2cell2);
+    matrixTransform = [];
+    for(i=0;i<arr1.length;i++) {
+        matrixTransform[i]=[];
+        for(j=0;j<arr2[0].length;j++) {
+            matrixTransform[i].push(
+                (arr1[i][0] * arr2[0][j]) + (arr1[i][1] * arr2[1][j])
+            );
+        }
+    }
+    // Model to help me think about how to structure the above
+    // row1cell1 = (arr1[0][0] * arr2[0][0]) + (arr1[0][1] * arr2[1][0]);
+    // row1cell2 = (arr1[0][0] * arr2[0][1]) + (arr1[0][1] * arr2[1][1]);
+    // row2cell1 = (arr1[1][0] * arr2[0][0]) + (arr1[1][1] * arr2[1][0]);
+    // row2cell2 = (arr1[1][0] * arr2[0][1]) + (arr1[1][1] * arr2[1][1]);
+    // console.log(row1cell1, row1cell2, row2cell1, row2cell2);
+    console.log( matrixTransform );
 }
 
 matrixMultiply([[2, 4], [3, 4]], [[5, 2], [3, 1]]);
 
 
 //  #######  ROCK, PAPER, SCISSORS  ######
+// Write a function rockPaperScissors which takes the throw of player 1 and the throw
+// of player 2. A throw can have the values of 'rock', 'paper', or 'scissors'. It
+// will return 'player 1' if player 1 wins, 'player 2' if player 2 wins, and 'draw'
+// if there is no winner.
+
+var rockPaperScissors = function(p1,p2) {
+
+}
+
+rockPaperScissors('rock', 'scissors')
+
