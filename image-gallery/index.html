@@ -133,16 +133,21 @@
         largeImage.addEventListener('click', lgImgClick);
         for (i=0; i<images.length; i++) {
             var imageHolder = document.createElement('div');
+
+            imageHolder.setAttribute('style','background:url('+images[i].src+'); background-size: cover; ');
+            // imageHolder.setAttribute('style','background:-size: cover;');
+
             var img = document.createElement('img');
             var caption = document.createElement('span');
             imageHolder.className = 'imageHolder';
             container.appendChild(imageHolder);
-            imageHolder.appendChild(img);
+            // imageHolder.appendChild(img);
             imageHolder.appendChild(caption);
             caption.className = 'caption';
             caption.textContent = images[i].alt;
-            img.setAttribute('src', images[i].src);
-            img.addEventListener('click', imgClick);
+            // img.setAttribute('src', images[i].src);
+            // img.addEventListener('click', imgClick);
+            imageHolder.addEventListener('click', imgClick);
         }
     
     </script>
