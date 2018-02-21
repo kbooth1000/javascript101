@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            background: #dee;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .imageHolder {
+            flex: 1;
+            flex-wrap: wrap;
+            min-width: 20%;
+            height: 33vh;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            background: #cdd;
+            min-width: 25%;
+            max-width: 33%;
+            margin: 1px;
+            overflow: hidden;
+            position: relative;
+        }
+        .imageHolder img {
+            width: 100%;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .caption {
+            color: #555;
+            font-family: sans-serif;
+            font-size: .9rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #cdd;
+            padding: 12px;
+            position: absolute;
+            bottom: 0;
+        }
+        .largeImageDiv {
+            position: fixed;
+            width: 0;
+            top: 15vh;
+            left: 10vw;
+            transition: 1s;
+            left: calc(50%);
+            transform: translateX(-50%);
+            /* display: none; */
+            opacity: 0;
+            z-index: 11;
+        }
+        .largeImageDiv.active {
+            /* display: block; */
+            opacity: 1;
+            width: auto;
+        }
+        .largeImageDiv img {
+            width: 100%;
+            max-width: 100%;
+            max-height: 70vh;
+            border: #ccc solid 1px;
+        }
+
+    </style>
+</head>
+<body>
+    
+
+    <script>
+        
+        var body = document.querySelector('body');
+        var container = document.createElement('div');
+        container.className='container';
+        body.appendChild(container);
+        var container = document.querySelector('.container');
+
+        var images = [
+            {
+                src:'images/1.jpg',
+                alt:'One'
+            },
+            {
+                src:'images/2.jpg',
+                alt:'Two'
+            },
+            {
+                src:'images/3.jpg',
+                alt:'Three'
+            },
+            {
+                src:'images/4.jpg',
+                alt:'Four'
+            },
+            {
+                src:'images/5.jpg',
+                alt:'Five'
+            },
+            {
+                src:'images/6.jpg',
+                alt:'Six'
+            },
+            {
+                src:'images/7.jpg',
+                alt:'Seven'
+            }
+        ];
+
+        var largeImageDiv = document.createElement('div');
+        var largeImage =  document.createElement('img');
+        largeImageDiv.className = 'largeImageDiv';
+        largeImageDiv.appendChild(largeImage);
+        container.appendChild(largeImageDiv);
+        largeImage.setAttribute('src',images[0].src);
+        
+        var imgClick = function() {
+                this.classList.toggle('active');
+                largeImage.setAttribute('src',this.src);
+                largeImageDiv.classList.add('active');
+            };
+        var lgImgClick = function() {
+            largeImageDiv.classList.toggle('active');
+        }
+        largeImage.addEventListener('click', lgImgClick);
+        for (i=0; i<images.length; i++) {
+            var imageHolder = document.createElement('div');
+            var img = document.createElement('img');
+            var caption = document.createElement('span');
+            imageHolder.className = 'imageHolder';
+            container.appendChild(imageHolder);
+            imageHolder.appendChild(img);
+            imageHolder.appendChild(caption);
+            caption.className = 'caption';
+            caption.textContent = images[i].alt;
+            img.setAttribute('src', images[i].src);
+            img.addEventListener('click', imgClick);
+        }
+    
+    </script>
+</body>
+</html>
