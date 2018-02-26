@@ -81,6 +81,8 @@
             position: absolute;
             top: 46vh;
             display: block;
+            color: #fff;
+            text-decoration: none;
         }
         .arrowLeft {
             left: 2vw;
@@ -141,9 +143,10 @@
         var largeImage =  document.createElement('img');
         var arrowLeft = document.createElement('a');
         var arrowRight = document.createElement('a');
-        var currentImage = 0;
         arrowLeft.textContent = '<';
         arrowRight.textContent = '>';
+        arrowRight.setAttribute('href','#');
+        arrowLeft.setAttribute('href','#');
         arrowLeft.className = 'arrow arrowLeft';
         arrowRight.className = 'arrow arrowRight';
         largeImageDiv.appendChild(arrowLeft);
@@ -165,7 +168,7 @@
         var arrowClick = function(e) {
             e.cancelBubble=true;
             var nextImg;
-            nextImg = largeImage.getAttribute('currentImage');
+            nextImg = largeImage.getAttribute('data-image-index');
             if(e.target === arrowRight) {
                 nextImg ++;
             } else {
