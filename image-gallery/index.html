@@ -141,6 +141,7 @@
         var largeImage =  document.createElement('img');
         var arrowLeft = document.createElement('a');
         var arrowRight = document.createElement('a');
+        var currentImage = 0;
         arrowLeft.textContent = '<';
         arrowRight.textContent = '>';
         arrowLeft.className = 'arrow arrowLeft';
@@ -164,7 +165,7 @@
         var arrowClick = function(e) {
             e.cancelBubble=true;
             var nextImg;
-            nextImg = largeImage.getAttribute('data-image-index');
+            nextImg = largeImage.getAttribute('currentImage');
             if(e.target === arrowRight) {
                 nextImg ++;
             } else {
@@ -183,8 +184,8 @@
         largeImageDiv.addEventListener('click', lgImgClick);
         arrowRight.addEventListener('click', arrowClick);
         arrowLeft.addEventListener('click', arrowClick);
-        for (i=0; i<images.length; i++) {
-            var imageHolder = document.createElement('div');
+        images.forEach(function(imageHolder, i, images) {
+            imageHolder = document.createElement('div');
             var img = document.createElement('img');
             var caption = document.createElement('span');
             imageHolder.className = 'imageHolder';
@@ -196,9 +197,15 @@
             img.setAttribute('src', images[i].src);
             img.dataset.index = i;
             img.addEventListener('click', imgClick);
-        }
+        });
         body.appendChild(container);
+
+    //     images.forEach(function(image, i, arr) {
+    // console.log(i + image + ' is part of ' + arr);
+
     
     </script>
 </body>
 </html>
+
+
