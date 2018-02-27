@@ -97,9 +97,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script>
         
-        var $body = $('body');
-        var $container = $('<div></div>').addClass('container');
-        $body.append($container);
         var images = [
             {
                 src:'images/1.jpg',
@@ -137,12 +134,16 @@
                 alt:'Seven'
             }
         ];
+        var $body = $('body');
+        var $container = $('<div></div>').addClass('container');
+        $body.append($container);
+        
         var $largeImageDiv = $('<div></div>');
         var $largeImage =  $('<img>');
         var $arrowLeft = $('<a></a>');
         var $arrowRight = $('<a></a>');
-        $arrowLeft.textContent = '<';
-        $arrowRight.textContent = '>';
+        $arrowLeft.text('<');
+        $arrowRight.text('>');
         $arrowRight.attr('href','#');
         $arrowLeft.attr('href','#');
         $arrowLeft.addClass( 'arrow arrowLeft');
@@ -154,25 +155,27 @@
         $container.append($largeImageDiv);
         $largeImage.attr('src',images[0].src);
         
-        var imgClick = function(e) {
-                this.classList.toggle('active');
-                $largeImage.attr('src',this.src);
-                $largeImage.attr('data-image-index', this.dataset.index);
+        var imgClick = function(event) {
+            var $this = $(this);
+            var currentIndex = $this.attr('data-image-index');
+                $largeImage.attr('src', images[currentIndex].src);
+                $largeImageDiv.attr('data-image-index', $this.attr('data-image-index'));
                 $largeImageDiv.addClass('active');
             };
-        var lgImgClick = function() {
+        var lgImgClick = function(event) {
+            
             $largeImageDiv.toggleClass('active');
         }
-        var arrowClick = function(e) {
-            e.cancelBubble=true;
+        var arrowClick = function(event) {
+            var $this = $(this);
+            event.stopPropagation();
             var nextImg;
-            nextImg = $largeImage.attr('data-image-index');
-            if(e.target === arrowRight) {
+            nextImg = $largeImageDiv.attr('data-image-index'); // NOT WORKING
+            if($this.is($arrowRight)) {
                 nextImg ++;
-            } else {
+            } else if($this.is($arrowLeft)) {
                 nextImg --;
             }
-            console.log(nextImg);
             if(nextImg > images.length-1) {
                 nextImg = 0;
             }
@@ -180,11 +183,12 @@
                 nextImg = images.length-1;
             }
             $largeImage.attr('src', images[nextImg].src);
-            $largeImage.attr('data-image-index', nextImg);
+            $largeImageDiv.attr('data-image-index', nextImg);
         }
         $largeImageDiv.on('click', lgImgClick);
         $arrowRight.on('click', arrowClick);
         $arrowLeft.on('click', arrowClick);
+
         images.forEach(function(image, i, arr) {
             var $imageHolder = $('<div></div>').addClass('imageHolder');
             var $img = $('<img>');
@@ -193,16 +197,12 @@
             $imageHolder.append($img);
             $imageHolder.append($caption);
             $caption.addClass('caption');
-            $caption.textContent = images[i].caption;
+            $caption.text(images[i].caption);
             $img.attr('src', images[i].src);
-            $img.attr('data',index(this));
-            $img.on('click', imgClick);
+            $imageHolder.attr('data-image-index', i);
+            $imageHolder.on('click', imgClick);
         });
         $body.append($container);
-
-        images.forEach(function(image, i, arr) {
-    console.log(i + image + ' is part of ' + arr);
-        })
     
     </script>
 </body>
