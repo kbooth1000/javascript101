@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image Gallery</title>
+    <style
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .container {
+            background: #dee;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .imageHolder {
+            flex: 1;
+            flex-wrap: wrap;
+            min-width: 20%;
+            height: 33vh;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            background: #cdd;
+            min-width: 25%;
+            max-width: 33%;
+            margin: 1px;
+            overflow: hidden;
+            position: relative;
+        }
+        .imageHolder img {
+            width: 100%;
+            cursor: pointer;
+            object-fit: cover;
+            height: 100%;
+        }
+        .caption {
+            color: #555;
+            font-family: sans-serif;
+            font-size: .9rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #cdd;
+            padding: 12px;
+            position: absolute;
+            bottom: 0;
+        }
+        .largeImageDiv {
+            transition: opacity .8s;
+            left: calc(50%);
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 11;
+        }
+        .largeImageDiv.active {
+            opacity: 1;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            background: rgba(222,222,255,.7);
+        }
+        .largeImageDiv.active img {
+            width: auto;
+            max-width: 85vw;
+            max-height: 70vh;
+            border: #ccc solid 1px;
+            margin: 50vh 0 0 50vw;
+            transform: translateY(-50%) translateX(-50%);
+        }
+        .largeImageDiv img {
+            width: 0;
+        }
+        .arrow {
+            font-size:3rem;
+            position: absolute;
+            top: 46vh;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+        .arrowLeft {
+            left: 2vw;
+        }
+        .arrowRight {
+            right: 2vw;
+        }
+    </style>
+</head>
+<body>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script>
+        
+        var body = document.querySelector('body');
+        var container = document.createElement('div');
+        var testDiv = document.createElement('div');
+        container.className='container';
+        // var container = document.querySelector('.container');
+        var images = [
+            {
+                src:'images/1.jpg',
+                caption:'Caption 1',
+                alt:'One'
+            },
+            {
+                src:'images/2.jpg',
+                caption:'Caption 2',
+                alt:'Two'
+            },
+            {
+                src:'images/3.jpg',
+                caption:'Caption 3',
+                alt:'Three'
+            },
+            {
+                src:'images/4.jpg',
+                caption:'Caption 4',
+                alt:'Four'
+            },
+            {
+                src:'images/5.jpg',
+                caption:'Caption 5',
+                alt:'Five'
+            },
+            {
+                src:'images/6.jpg',
+                caption:'Caption 6',
+                alt:'Six'
+            },
+            {
+                src:'images/7.jpg',
+                caption:'Caption 7',
+                alt:'Seven'
+            }
+        ];
+        var largeImageDiv = document.createElement('div');
+        var largeImage =  document.createElement('img');
+        var arrowLeft = document.createElement('a');
+        var arrowRight = document.createElement('a');
+        arrowLeft.textContent = '<';
+        arrowRight.textContent = '>';
+        arrowRight.setAttribute('href','#');
+        arrowLeft.setAttribute('href','#');
+        arrowLeft.className = 'arrow arrowLeft';
+        arrowRight.className = 'arrow arrowRight';
+        largeImageDiv.appendChild(arrowLeft);
+        largeImageDiv.appendChild(arrowRight);
+        largeImageDiv.className = 'largeImageDiv';
+        largeImageDiv.appendChild(largeImage);
+        container.appendChild(largeImageDiv);
+        largeImage.setAttribute('src',images[0].src);
+        
+        var imgClick = function(e) {
+                this.classList.toggle('active');
+                largeImage.setAttribute('src',this.src);
+                largeImage.setAttribute('data-image-index', this.dataset.index);
+                largeImageDiv.classList.add('active');
+            };
+        var lgImgClick = function() {
+            largeImageDiv.classList.toggle('active');
+        }
+        var arrowClick = function(e) {
+            e.cancelBubble=true;
+            var nextImg;
+            nextImg = largeImage.getAttribute('data-image-index');
+            if(e.target === arrowRight) {
+                nextImg ++;
+            } else {
+                nextImg --;
+            }
+            console.log(nextImg);
+            if(nextImg > images.length-1) {
+                nextImg = 0;
+            }
+            if(nextImg < 0 ) {
+                nextImg = images.length-1;
+            }
+            largeImage.setAttribute('src', images[nextImg].src);
+            largeImage.setAttribute('data-image-index', nextImg);
+        }
+        largeImageDiv.addEventListener('click', lgImgClick);
+        arrowRight.addEventListener('click', arrowClick);
+        arrowLeft.addEventListener('click', arrowClick);
+        images.forEach(function(imageHolder, i, images) {
+            imageHolder = document.createElement('div');
+            var img = document.createElement('img');
+            var caption = document.createElement('span');
+            imageHolder.className = 'imageHolder';
+            container.appendChild(imageHolder);
+            imageHolder.appendChild(img);
+            imageHolder.appendChild(caption);
+            caption.className = 'caption';
+            caption.textContent = images[i].caption;
+            img.setAttribute('src', images[i].src);
+            img.dataset.index = i;
+            img.addEventListener('click', imgClick);
+        });
+        body.appendChild(container);
+
+    //     images.forEach(function(image, i, arr) {
+    // console.log(i + image + ' is part of ' + arr);
+
+    
+    </script>
+</body>
+</html>
+
+
