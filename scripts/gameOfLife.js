@@ -19,8 +19,8 @@ for(var x=0; x<3; x++) {
                                     'alive':false,
                                      'neigborsAlive':0,
                                      'x':x,
-                                                        'y':y
-        }
+                                     'y':y
+                                    }
         } else {
             throw(`Invalid Entry: ${this.x},${this.y}`);
         }
@@ -66,18 +66,30 @@ let aliveNextRound = function(target){
     if (target.alive){
         if(target.neigborsAlive < 2 || target.neigborsAlive > 3){
             target.alive = false;
-            thisCell.classList.remove('alive');
+           // thisCell.classList.remove('alive');
         }
     } else if(target.neigborsAlive === 3){
         target.alive = true;
-        thisCell.classList.add('alive');
+       // thisCell.classList.add('alive');
     }
+    if(target.alive) {
+        thisCell.classList.add('alive');
+   } else {
+       thisCell.classList.remove('alive');
+   }
 }
 
-gameBoardArray.forEach(function(row){
-    row.forEach(checkNeighbors);
+var updateBoard = function() {
+    gameBoardArray.forEach(function(row){
+        row.forEach(checkNeighbors);
+        });
+       // debugger;
+    gameBoardArray.forEach(function(row){
+        row.forEach(aliveNextRound);
     });
-    debugger;
-gameBoardArray.forEach(function(row){
-    row.forEach(aliveNextRound);
-});
+}
+
+var table = document.querySelector('table');
+table.addEventListener('click', updateBoard);
+
+updateBoard();
