@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        html, body, table{
+            height: 100%;
+            width: 100%;
+        }
+        td {
+            border: #eee solid 1px;
+        }
+        .alive {
+            background: #9e9;
+        }
+
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td id="c00"></td>
+            <td id="c10"></td>
+            <td id="c20"></td>
+    </tr>
+
+        <tr>
+            <td id="c01" class="alive"></td>
+            <td id="c11"></td>
+            <td id="c21"></td>
+        </tr>
+
+
+        <tr>
+            <td id="c02"></td>
+            <td id="c12"></td>
+            <td id="c22"></td>
+        </tr>
+    </table>
+    <script src="gameOfLife.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image Gallery</title>
+    <style
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .container {
+            background: #dee;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .imageHolder {
+            flex: 1;
+            flex-wrap: wrap;
+            min-width: 20%;
+            height: 33vh;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            background: #cdd;
+            min-width: 25%;
+            max-width: 33%;
+            margin: 1px;
+            overflow: hidden;
+            position: relative;
+        }
+        .imageHolder img {
+            width: 100%;
+            cursor: pointer;
+            object-fit: cover;
+            height: 100%;
+        }
+        .caption {
+            color: #555;
+            font-family: sans-serif;
+            font-size: .9rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #cdd;
+            padding: 12px;
+            position: absolute;
+            bottom: 0;
+        }
+        .largeImageDiv {
+            transition: opacity .8s;
+            left: calc(50%);
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 11;
+        }
+        .largeImageDiv.active {
+            opacity: 1;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            background: rgba(222,222,255,.7);
+        }
+        .largeImageDiv.active img {
+            width: auto;
+            max-width: 85vw;
+            max-height: 70vh;
+            border: #ccc solid 1px;
+            margin: 50vh 0 0 50vw;
+            transform: translateY(-50%) translateX(-50%);
+        }
+        .largeImageDiv img {
+            width: 0;
+        }
+        .arrow {
+            font-size:3rem;
+            position: absolute;
+            top: 46vh;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+        .arrowLeft {
+            left: 2vw;
+        }
+        .arrowRight {
+            right: 2vw;
+        }
+    </style>
+</head>
+<body>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script>
+        
+        var images = [
+            {
+                src:'images/1.jpg',
+                caption:'Caption 1',
+                alt:'One'
+            },
+            {
+                src:'images/2.jpg',
+                caption:'Caption 2',
+                alt:'Two'
+            },
+            {
+                src:'images/3.jpg',
+                caption:'Caption 3',
+                alt:'Three'
+            },
+            {
+                src:'images/4.jpg',
+                caption:'Caption 4',
+                alt:'Four'
+            },
+            {
+                src:'images/5.jpg',
+                caption:'Caption 5',
+                alt:'Five'
+            },
+            {
+                src:'images/6.jpg',
+                caption:'Caption 6',
+                alt:'Six'
+            },
+            {
+                src:'images/7.jpg',
+                caption:'Caption 7',
+                alt:'Seven'
+            }
+        ];
+        var $body = $('body');
+        var $container = $('<div></div>').addClass('container');
+        $body.append($container);
+        
+        var $largeImageDiv = $('<div></div>');
+        var $largeImage =  $('<img>');
+        var $arrowLeft = $('<a></a>');
+        var $arrowRight = $('<a></a>');
+        $arrowLeft.text('<');
+        $arrowRight.text('>');
+        $arrowRight.attr('href','#');
+        $arrowLeft.attr('href','#');
+        $arrowLeft.addClass( 'arrow arrowLeft');
+        $arrowRight.addClass( 'arrow arrowRight');
+        $largeImageDiv.append($arrowLeft);
+        $largeImageDiv.append($arrowRight);
+        $largeImageDiv.addClass('largeImageDiv');
+        $largeImageDiv.append($largeImage);
+        $container.append($largeImageDiv);
+        $largeImage.attr('src',images[0].src);
+        
+        var imgClick = function(event) {
+            var $this = $(this);
+            var currentIndex = $this.attr('data-image-index');
+                $largeImage.attr('src', images[currentIndex].src);
+                $largeImageDiv.attr('data-image-index', $this.attr('data-image-index'));
+                $largeImageDiv.addClass('active');
+            };
+        var lgImgClick = function(event) {
+            
+            $largeImageDiv.toggleClass('active');
+        }
+        var arrowClick = function(event) {
+            var $this = $(this);
+            event.stopPropagation();
+            var nextImg;
+            nextImg = $largeImageDiv.attr('data-image-index'); // NOT WORKING
+            if($this.is($arrowRight)) {
+                nextImg ++;
+            } else if($this.is($arrowLeft)) {
+                nextImg --;
+            }
+            if(nextImg > images.length-1) {
+                nextImg = 0;
+            }
+            if(nextImg < 0 ) {
+                nextImg = images.length-1;
+            }
+            $largeImage.attr('src', images[nextImg].src);
+            $largeImageDiv.attr('data-image-index', nextImg);
+        }
+        $largeImageDiv.on('click', lgImgClick);
+        $arrowRight.on('click', arrowClick);
+        $arrowLeft.on('click', arrowClick);
+
+        images.forEach(function(image, i, arr) {
+            var $imageHolder = $('<div></div>').addClass('imageHolder');
+            var $img = $('<img>');
+            var $caption = $('<span></span>');
+            $container.append($imageHolder);
+            $imageHolder.append($img);
+            $imageHolder.append($caption);
+            $caption.addClass('caption');
+            $caption.text(images[i].caption);
+            $img.attr('src', images[i].src);
+            $imageHolder.attr('data-image-index', i);
+            $imageHolder.on('click', imgClick);
+        });
+        $body.append($container);
+    
+    </script>
+</body>
+</html>
+
+
